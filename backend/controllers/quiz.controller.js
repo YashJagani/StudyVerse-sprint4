@@ -75,28 +75,6 @@ export const getQuizByCourse = async (req, res) => {
   }
 };
 
-// Submit quiz answers
-// export const submitQuiz = async (req, res) => {
-//   try {
-//     const { quizId } = req.params;
-//     const { answers } = req.body;
-
-//     const quiz = await Quiz.findById(quizId);
-//     if (!quiz) return res.status(404).json({ message: "Quiz not found" });
-
-//     let score = 0;
-//     quiz.questions.forEach((question, index) => {
-//       if (JSON.stringify(question.correctAnswer) === JSON.stringify(answers[index])) {
-//         score += 1;
-//       }
-//     });
-
-//     res.status(200).json({ success: true, message: "Quiz submitted successfully", score });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
 export const submitQuiz = async (req, res) => {
   try {
     const { quizId } = req.params;
