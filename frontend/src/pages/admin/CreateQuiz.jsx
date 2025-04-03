@@ -9,7 +9,7 @@ const CreateQuiz = () => {
   const { data: coursesData, isLoading: coursesLoading } = useGetPublishedCourseQuery();
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [questions, setQuestions] = useState([]);
-  const [timeLimit, setTimeLimit] = useState(10); // default 10 minutes
+  const [timeLimit, setTimeLimit] = useState(10); 
   const navigate = useNavigate();
   const [createQuiz, { isLoading }] = useCreateQuizMutation();
 
@@ -34,7 +34,7 @@ const CreateQuiz = () => {
     try {
       await createQuiz({
         courseId: selectedCourseId,
-        timeLimit: timeLimit * 60, // convert minutes to seconds
+        timeLimit: timeLimit * 60, 
         questions,
       }).unwrap();
 
@@ -68,7 +68,7 @@ const CreateQuiz = () => {
         </select>
       )}
 
-      {/* Time Limit Input */}
+      {/* Timer */}
       <div className="mb-4">
         <label className="font-semibold block mb-1">Time Limit (in minutes):</label>
         <input
