@@ -10,6 +10,7 @@ import {
   deleteQuiz 
 } from "../controllers/quiz.controller.js";
 
+// quiz routes
 const router = express.Router();
 
 router.post("/create", createQuiz);
