@@ -28,20 +28,6 @@ const QuizPage = () => {
     }
   }, [timeLimitFromBackend]);
 
-  // Auto-submit when timer hits 0
-  // useEffect(() => {
-  //   if (timer <= 0 && !hasSubmitted) {
-  //     handleSubmit(); // auto-submit
-  //     return;
-  //   }
-
-  //   const interval = setInterval(() => {
-  //     setTimer((prev) => prev - 1);
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [timer]);
-
   // Initialize timer only when timeLimit is loaded from backend
 useEffect(() => {
   if (data?.quiz?.timeLimit && timer === 0) {
@@ -57,7 +43,7 @@ useEffect(() => {
     setTimer((prev) => {
       if (prev <= 1) {
         clearInterval(interval);
-        handleSubmit(); // ⏰ Auto-submit
+        handleSubmit(); 
         return 0;
       }
       return prev - 1;
@@ -71,7 +57,7 @@ useEffect(() => {
   const handleSubmit = async () => {
     if (!quizId || hasSubmitted) return;
 
-    setHasSubmitted(true); // prevent re-submission
+    setHasSubmitted(true); 
 
     try {
       const answersArray = questions.map((q) => answers[q._id] || []);
@@ -100,7 +86,7 @@ useEffect(() => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto mt-24">
-      {/* Timer Header */}
+      {/* Timer */}
       <div className="flex justify-between items-center mb-8 sticky top-16 z-10 bg-white shadow-md p-4 rounded-lg">
         <h1 className="text-3xl font-bold text-gray-800">Course Quiz</h1>
         <div className="text-xl font-bold text-red-600 bg-gray-100 border border-red-400 px-5 py-2 rounded shadow">
