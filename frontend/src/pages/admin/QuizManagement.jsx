@@ -13,7 +13,7 @@ const QuizManagement = () => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       await deleteQuiz(quizId);
       toast.success("Quiz deleted successfully!");
-      refetch(); // ✅ Refresh quiz list after deletion
+      refetch(); 
     }
   };
 
