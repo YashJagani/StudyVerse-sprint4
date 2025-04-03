@@ -7,8 +7,8 @@ const QuestionSchema = new mongoose.Schema({
     enum: ["multiple_choice", "fill_in_the_blank", "true_false"], 
     required: true 
   },
-  options: [{ type: String }], // Supports choices for all types
-  correctAnswer: [{ type: String, required: true }], // Stores correct answers
+  options: [{ type: String }], 
+  correctAnswer: [{ type: String, required: true }], 
 });
 
 const QuizSchema = new mongoose.Schema({
