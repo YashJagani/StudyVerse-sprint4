@@ -17,7 +17,6 @@ const EditQuiz = () => {
 
   useEffect(() => {
     if (data?.quiz?.questions) {
-      // Deep clone to avoid readonly issues
       setQuestions(JSON.parse(JSON.stringify(data.quiz.questions)));
       setTimeLimit(data.quiz.timeLimit || 0);
     }
@@ -175,7 +174,7 @@ const EditQuiz = () => {
             </>
           )}
 
-          {/* True / False */}
+          {/* True or False */}
           {q.questionType === "true_false" && (
             <>
               {["True", "False"].map((option, optIndex) => (
