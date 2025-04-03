@@ -13,8 +13,7 @@ const QuizResult = () => {
 
   useEffect(() => {
     if (!location.state) {
-      // Optional fallback to fetch from server or show error
-      // In a real scenario, you would store result in DB or state management
+      
       setResult(null);
     }
   }, [location.state]);
