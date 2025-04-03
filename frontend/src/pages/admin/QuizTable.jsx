@@ -1,5 +1,8 @@
 import React from "react";
-import { useGetQuizzesQuery, useDeleteQuizMutation } from "@/features/api/quizApi";
+import {
+  useGetQuizzesQuery,
+  useDeleteQuizMutation,
+} from "@/features/api/quizApi";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -23,6 +26,7 @@ const QuizTable = () => {
         <Button className="mb-4">Create New Quiz</Button>
       </Link>
 
+      {/* Quizzes List */}
       <table className="w-full border">
         <thead>
           <tr>
@@ -40,7 +44,10 @@ const QuizTable = () => {
                 <Link to={`/admin/quiz/edit/${quiz._id}`}>
                   <Button>Edit</Button>
                 </Link>
-                <Button onClick={() => handleDelete(quiz._id)} variant="destructive">
+                <Button
+                  onClick={() => handleDelete(quiz._id)}
+                  variant="destructive"
+                >
                   Delete
                 </Button>
               </td>
