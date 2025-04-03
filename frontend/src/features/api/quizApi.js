@@ -1,5 +1,6 @@
 import { apiSlice } from "./apiSlice";
 
+//quiz api
 export const quizApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getAllQuizzes: builder.query({
