@@ -38,6 +38,7 @@ app.use("/api/v1/purchase", purchaseRoute);
 app.use("/api/v1/courseProgress", CourseProgressRoute);
 // quiz routes
 app.use("/api/v1/quiz", quizRoute);
+// certificate routes
 app.use("/api/v1/certificate", certificateRoutes);
 
 app.get("home", (_, res) => {
