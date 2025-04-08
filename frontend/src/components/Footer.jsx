@@ -1,6 +1,7 @@
 import { Facebook, Twitter, Linkedin, Mail } from "lucide-react";
 
 const Footer = () => {
+  // dark theme implementation
   return (
     <footer className="bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-gray-900 dark:text-white py-8">
       <div className="max-w-7xl mx-auto text-center px-4">
