@@ -11,6 +11,7 @@ import { createCourse } from "./controllers/course.controller.js";
 dotenv.config({});
 import  CourseProgressRoute  from "./routes/courseProgress.route.js";
 import quizRoute from "./routes/quiz.routes.js";
+import certificateRoutes from "./routes/certificateRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 
 
@@ -37,6 +38,7 @@ app.use("/api/v1/purchase", purchaseRoute);
 app.use("/api/v1/courseProgress", CourseProgressRoute);
 // quiz routes
 app.use("/api/v1/quiz", quizRoute);
+app.use("/api/v1/certificate", certificateRoutes);
 
 app.get("home", (_, res) => {
   res.status(200).json({

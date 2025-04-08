@@ -2,52 +2,126 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useGetQuizByCourseQuery } from "@/features/api/quizApi";
+import { useGetCourseByIdQuery } from "@/features/api/courseApi";
+import { useDownloadCertificateMutation } from "@/features/api/certificateApi";
+import { motion } from "framer-motion";
+import { CheckCircle, ArrowRight, Download } from "lucide-react";
+import { useLoadUserQuery } from "@/features/api/authApi";
 
 const QuizResult = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [result, setResult] = useState(location.state || null);
-  const { data, isLoading } = useGetQuizByCourseQuery(courseId);
+
+  const { data: quizData } = useGetQuizByCourseQuery(courseId);
+  const { data: userData } = useLoadUserQuery(); // Get user info
+  const { data: courseData } = useGetCourseByIdQuery(courseId);
+  const [downloadCertificate] = useDownloadCertificateMutation();
+
+  const userName = userData?.user?.name || "Learner";
+  const courseName = courseData?.course?.courseTitle || "Course";
 
   useEffect(() => {
     if (!location.state) {
-      
       setResult(null);
     }
   }, [location.state]);
 
+  const handleCertificateDownload = () => {
+    const encodedName = encodeURIComponent(userName);
+    const encodedCourseName = encodeURIComponent(courseName);
+    const url = `http://localhost:1552/api/v1/certificate/generate?name=${encodedName}&courseName=${encodedCourseName}`;
+    window.open(url, "_blank");
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-6">
-      <div className="bg-white shadow-xl rounded-xl p-8 max-w-md w-full text-center">
-        <h1 className="text-3xl font-bold text-green-600 mb-6">🎉 Quiz Result</h1>
+    <motion.div
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-[#0f172a] dark:to-[#1e293b] px-6"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <motion.div
+        className="bg-white dark:bg-[#1e293b] shadow-2xl rounded-3xl p-10 max-w-md w-full text-center"
+        initial={{ scale: 0.9 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.2 }}
+      >
+        <motion.div
+          className="flex flex-col items-center mb-6"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <CheckCircle
+            size={48}
+            className="text-green-600 dark:text-green-400 mb-4"
+          />
+          <h1 className="text-3xl font-extrabold text-green-600 dark:text-green-400">
+            🎉 Quiz Completed!
+          </h1>
+        </motion.div>
 
         {result ? (
-          <>
-            <p className="text-lg mb-4 text-gray-700">
-              <span className="font-semibold text-black">Your Score:</span>{" "}
-              <span className="text-2xl font-bold text-blue-700">{result.score}</span>
-            </p>
-            <p className="text-lg mb-8 text-gray-700">
-              <span className="font-semibold text-black">Correct Answers:</span>{" "}
-              <span className="text-xl font-semibold text-blue-500">{result.correctAnswers}</span>
-            </p>
-          </>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="mb-4 text-gray-700 dark:text-gray-300 text-lg">
+              <span className="font-semibold text-black dark:text-white">
+                Your Score:{" "}
+              </span>
+              <span className="text-3xl font-bold text-blue-700 dark:text-blue-400">
+                {result.score}
+              </span>
+            </div>
+            <div className="mb-8 text-gray-700 dark:text-gray-300 text-lg">
+              <span className="font-semibold text-black dark:text-white">
+                Correct Answers:{" "}
+              </span>
+              <span className="text-2xl font-semibold text-blue-500 dark:text-blue-300">
+                {result.correctAnswers}
+              </span>
+            </div>
+          </motion.div>
         ) : (
-          <p className="text-gray-500 mb-8">
-            No quiz result found. Please do not refresh the page after submitting the quiz.
-          </p>
+          <motion.p
+            className="text-gray-500 dark:text-gray-400 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            No quiz result found. Please avoid refreshing after quiz submission.
+          </motion.p>
         )}
 
-        <Button
-          onClick={() => navigate("/my-learning")}
-          className="bg-blue-600 text-white hover:bg-blue-700"
+        <motion.div
+          className="space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
         >
-          📚 Back to My Learning
-        </Button>
-      </div>
-    </div>
+          <Button
+            onClick={() => navigate(`/course-progress/${courseId}`)}
+            className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2"
+          >
+            <ArrowRight size={18} /> Back to Course Progress
+          </Button>
+
+          {userData && quizData && (
+            <Button
+              onClick={handleCertificateDownload}
+              className="bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2"
+            >
+              <Download size={18} /> Download Certificate
+            </Button>
+          )}
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 
