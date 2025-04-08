@@ -28,13 +28,13 @@ export const generateCertificate = async (req, res) => {
     const width = doc.page.width;
     const height = doc.page.height;
 
-    // Register AlexBrush font
+    // AlexBrush font
     const alexFontPath = path.join(__dirname, "assets", "AlexBrush-Regular.ttf");
     if (fs.existsSync(alexFontPath)) {
       doc.registerFont("AlexBrush", alexFontPath);
     }
 
-    // === Fancy Gradient Borders ===
+    // Fancy Gradient Borders
     const borderColors = ["#3b82f6", "#6366f1", "#8b5cf6"];
     for (let i = 0; i < borderColors.length; i++) {
       doc.save()
@@ -45,7 +45,7 @@ export const generateCertificate = async (req, res) => {
         .restore();
     }
 
-    // === Watermark ===
+    // Watermark
     doc.fontSize(80)
       .fillColor("#e0f2fe")
       .rotate(-45, { origin: [width / 2, height / 2] })
@@ -55,25 +55,25 @@ export const generateCertificate = async (req, res) => {
       });
     doc.rotate(45, { origin: [width / 2, height / 2] });
 
-    // === Main Title ===
+    // Main Title
     doc.font("Times-Bold")
       .fontSize(46)
       .fillColor("#1e3a8a")
       .text("Certificate of Achievement", 0, 120, { align: "center" });
 
-    // === Subtitle ===
+    // Subtitle
     doc.font("Times-Italic")
       .fontSize(20)
       .fillColor("#374151")
       .text("This certificate is proudly awarded to", 0, 180, { align: "center" });
 
-    // === Centered Recipient Name ===
+    
     doc.font("Times-BoldItalic")
       .fontSize(40)
       .fillColor("#0f172a")
       .text(name, 0, 230, { align: "center" });
 
-    // === Course Info ===
+    //Course Info
     doc.font("Times-Roman")
       .fontSize(18)
       .fillColor("#374151")
@@ -84,7 +84,7 @@ export const generateCertificate = async (req, res) => {
       .fillColor("#0f172a")
       .text(courseName, 0, 310, { align: "center", underline: true });
 
-    // === Extra Message ===
+    // Extra Message
     doc.font("Times-Italic")
       .fontSize(16)
       .fillColor("#4b5563")
@@ -94,7 +94,7 @@ export const generateCertificate = async (req, res) => {
       align: "center",
     });
 
-    // === Footer ===
+    // Footer
     const today = new Date().toLocaleDateString();
 
     doc.font("Times-Roman")
