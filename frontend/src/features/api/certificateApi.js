@@ -6,7 +6,6 @@ export const certificateApi = apiSlice.injectEndpoints({
       query: ({ name, courseName }) => ({
         url: `/certificate/generate?name=${encodeURIComponent(name)}&courseName=${encodeURIComponent(courseName)}`,
         method: "GET",
-        // No responseHandler here!
       }),
     }),
   }),
