@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/sheet";
 
 import logo from "../assets/logo.png";
-import { Dialog, DialogContent, DialogHeader, DialogFooter } from "./ui/dialog"; // Importing Modal
+import { Dialog, DialogContent, DialogHeader, DialogFooter } from "./ui/dialog";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogoutUserMutation } from "@/features/api/authApi";
@@ -58,14 +58,14 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="h-16 bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 dark:bg-gray-900 border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10 shadow-md">
+      <div className="h-20 bg-gradient-to-r from-blue-400 via-blue-300 to-blue-200 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 border-b dark:border-b-gray-700 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-10 shadow-md">
         <div className="max-w-7xl mx-auto hidden md:flex justify-between items-center gap-10 h-full px-6">
           {/* Logo & Title */}
           <div className="flex items-center gap-3">
             <Link to="/" className="flex items-center gap-3">
-              <Avatar className="h-20 w-20 mt-3">
+              <Avatar className="h-20 w-20">
                 <AvatarImage
-                  className="h-full w-full object-contain"
+                  className="h-full mt-2 w-full object-contain"
                   src={logo}
                   alt="Logo"
                 />
@@ -97,7 +97,7 @@ const Navbar = () => {
                     </Avatar>
                   </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
+                <DropdownMenuContent className="w-56 dark:bg-gray-800 dark:text-white">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
@@ -152,7 +152,7 @@ const Navbar = () => {
         {/* Mobile View */}
         <div className="flex md:hidden items-center justify-between px-4 h-full">
           <div className="flex items-center gap-2">
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-16 w-16">
               <AvatarImage
                 className="h-full w-full object-cover"
                 src={logo}
@@ -171,7 +171,7 @@ const Navbar = () => {
       {/* Logout */}
       {showLogoutConfirm && (
         <Dialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>
-          <DialogContent className="p-6">
+          <DialogContent className="p-6 dark:bg-gray-900 dark:text-white">
             <DialogHeader>
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
                 Are you sure you want to logout?
@@ -214,7 +214,7 @@ const MobileNavbar = () => {
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent className="flex flex-col">
+      <SheetContent className="flex flex-col dark:bg-gray-900 dark:text-white">
         <SheetHeader className="flex flex-row items-center justify-between mt-2">
           <SheetTitle>StudyVerse</SheetTitle>
           <DarkMode />
