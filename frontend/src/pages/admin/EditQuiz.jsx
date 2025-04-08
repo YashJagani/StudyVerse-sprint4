@@ -37,24 +37,22 @@ const EditQuiz = () => {
     return <p className="text-center text-red-600">Error loading quiz.</p>;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Edit Quiz</h1>
+    <div className="p-6 mt-24 max-w-4xl mx-auto bg-white dark:bg-gray-900 text-gray-900 dark:text-white shadow-md rounded-md">
+      <h1 className="text-3xl font-bold mb-6">Edit Quiz</h1>
 
-      <div className="mb-4">
-        <label className="font-semibold block mb-1">
-          Time Limit (in seconds):
-        </label>
+      <div className="mb-6">
+        <label className="font-semibold block mb-2">Time Limit (in seconds):</label>
         <input
           type="number"
           min="1"
           value={timeLimit}
           onChange={(e) => setTimeLimit(Number(e.target.value))}
-          className="border p-2 rounded w-full"
+          className="border dark:border-gray-700 dark:bg-gray-800 p-2 w-full rounded"
         />
       </div>
 
       {questions.map((q, index) => (
-        <div key={index} className="mb-6 border rounded-lg p-4 bg-white shadow">
+        <div key={index} className="mb-6 border dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-800 shadow-sm">
           <input
             type="text"
             placeholder="Enter Question"
@@ -67,11 +65,11 @@ const EditQuiz = () => {
               };
               setQuestions(updated);
             }}
-            className="border rounded p-2 w-full"
+            className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-3"
           />
 
           <select
-            className="border rounded p-2 w-full mt-2"
+            className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-4"
             value={q.questionType}
             onChange={(e) => {
               const updated = [...questions];
@@ -105,7 +103,7 @@ const EditQuiz = () => {
                     updated[index] = { ...updated[index], options: newOptions };
                     setQuestions(updated);
                   }}
-                  className="border p-2 w-full mt-2"
+                  className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-2"
                 />
               ))}
               {q.options.length < 4 && (
@@ -116,7 +114,7 @@ const EditQuiz = () => {
                     updated[index] = { ...updated[index], options: newOptions };
                     setQuestions(updated);
                   }}
-                  className="mt-2"
+                  className="mt-2 bg-gray-800 hover:bg-gray-900 text-white"
                 >
                   Add Option
                 </Button>
@@ -133,7 +131,7 @@ const EditQuiz = () => {
                   };
                   setQuestions(updated);
                 }}
-                className="border p-2 w-full mt-2"
+                className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mt-4"
               />
             </>
           )}
@@ -154,7 +152,7 @@ const EditQuiz = () => {
                     updated[index] = { ...updated[index], options: newOptions };
                     setQuestions(updated);
                   }}
-                  className="border p-2 w-full mt-2"
+                  className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-2"
                 />
               ))}
               <input
@@ -169,7 +167,7 @@ const EditQuiz = () => {
                   };
                   setQuestions(updated);
                 }}
-                className="border p-2 w-full mt-2"
+                className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mt-2"
               />
             </>
           )}
@@ -193,6 +191,7 @@ const EditQuiz = () => {
                       };
                       setQuestions(updated);
                     }}
+                    className="mr-2"
                   />
                   {option}
                 </label>
@@ -202,7 +201,10 @@ const EditQuiz = () => {
         </div>
       ))}
 
-      <Button onClick={handleSave} className="bg-blue-600 text-white">
+      <Button
+        onClick={handleSave}
+        className="bg-blue-600 hover:bg-blue-700 text-white mt-4"
+      >
         Save Quiz
       </Button>
     </div>
