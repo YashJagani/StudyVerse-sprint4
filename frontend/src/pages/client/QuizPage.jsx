@@ -164,7 +164,7 @@ const QuizPage = () => {
             disabled={hasSubmitted}
             className="bg-green-600 hover:bg-green-700 text-white"
           >
-            ✅ Submit Quiz
+            Submit Quiz
           </Button>
         )}
       </div>
