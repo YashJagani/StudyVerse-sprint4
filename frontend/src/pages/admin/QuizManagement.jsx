@@ -13,54 +13,70 @@ const QuizManagement = () => {
     if (window.confirm("Are you sure you want to delete this quiz?")) {
       await deleteQuiz(quizId);
       toast.success("Quiz deleted successfully!");
-      refetch(); 
+      refetch();
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 mt-10">
-      <h1 className="text-2xl font-bold">Quiz Management</h1>
+    <div className="max-w-7xl mx-auto px-4 mt-24">
       
-      <div className="flex justify-end my-4">
+      <div className="flex justify-end mb-6">
         <Link to="/admin/quiz/create">
-          <Button className="bg-blue-600 text-white">Create New Quiz</Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+            Create New Quiz
+          </Button>
         </Link>
       </div>
 
       {isLoading ? (
         <div className="flex justify-center">
-          <Loader2 className="animate-spin h-8 w-8 text-gray-500" />
+          <Loader2 className="animate-spin h-8 w-8 text-gray-500 dark:text-gray-300" />
         </div>
       ) : !data?.quizzes || data.quizzes.length === 0 ? (
-        <p className="text-center text-gray-500">No quizzes found.</p>
+        <p className="text-center text-gray-500 dark:text-gray-400">No quizzes found.</p>
       ) : (
-        <table className="w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2">Course</th>
-              <th className="border border-gray-300 p-2">Total Questions</th>
-              <th className="border border-gray-300 p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.quizzes.map((quiz) => (
-              <tr key={quiz._id} className="hover:bg-gray-50">
-                <td className="border border-gray-300 p-2">{quiz.courseId?.courseTitle || "Unknown Course"}</td>
-                <td className="border border-gray-300 p-2">{quiz.questions.length}</td>
-                <td className="border border-gray-300 p-2 flex gap-2">
-                  <Link to={`/admin/quiz/edit/${quiz._id}`}>
-                    <Button size="sm" className="bg-yellow-500 text-white">
-                      <Edit size={16} />
-                    </Button>
-                  </Link>
-                  <Button size="sm" className="bg-red-500 text-white" onClick={() => handleDelete(quiz._id)}>
-                    <Trash size={16} />
-                  </Button>
-                </td>
+        <div className="overflow-x-auto rounded-lg shadow">
+          <table className="min-w-full border-collapse border border-gray-300 dark:border-gray-700">
+            <thead className="bg-gray-100 dark:bg-gray-800">
+              <tr className="text-gray-800 dark:text-gray-100">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left">Course</th>
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left">Total Questions</th>
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="text-gray-800 dark:text-gray-200">
+              {data.quizzes.map((quiz) => (
+                <tr key={quiz._id} className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
+                    {quiz.courseId?.courseTitle || "Unknown Course"}
+                  </td>
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
+                    {quiz.questions.length}
+                  </td>
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
+                    <div className="flex gap-2">
+                      <Link to={`/admin/quiz/edit/${quiz._id}`}>
+                        <Button
+                          size="sm"
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white"
+                        >
+                          <Edit size={16} />
+                        </Button>
+                      </Link>
+                      <Button
+                        size="sm"
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                        onClick={() => handleDelete(quiz._id)}
+                      >
+                        <Trash size={16} />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
