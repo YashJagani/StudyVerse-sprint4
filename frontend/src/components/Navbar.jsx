@@ -77,7 +77,6 @@ const Navbar = () => {
             </Link>
           </div>
 
-          
           <div className="flex items-center gap-8">
             {user ? (
               <DropdownMenu>
@@ -203,6 +202,7 @@ export default Navbar;
 
 const MobileNavbar = () => {
   const role = "instructor";
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -219,17 +219,50 @@ const MobileNavbar = () => {
           <SheetTitle>StudyVerse</SheetTitle>
           <DarkMode />
         </SheetHeader>
-        <Separator className="mr-2" />
-        <nav className="flex flex-col space-y-4">
-          <span>My Learning</span>
-          <span>Edit Profile</span>
-          <span>Log Out</span>
-          <span>Log Out</span>
+        <Separator className="mr-2 mb-4" />
+
+        <nav className="flex flex-col space-y-4 text-lg">
+          <Link
+            to="/my-learning"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+          >
+            My Learning
+          </Link>
+          <Link
+            to="/profile"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+          >
+            Edit Profile
+          </Link>
+          <Link
+            to="/contact"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+          >
+            Contact
+          </Link>
+          <Link
+            to="/aboutus"
+            className="hover:text-blue-600 dark:hover:text-blue-400 transition"
+          >
+            About Us
+          </Link>
+          <Link
+            to="/login"
+            className="hover:text-red-600 dark:hover:text-red-400 transition"
+          >
+            Log Out
+          </Link>
         </nav>
+
         {role === "instructor" && (
-          <SheetFooter>
+          <SheetFooter className="mt-6">
             <SheetClose asChild>
-              <Button type="submit">Dashboard</Button>
+              <Link
+                to="/admin/dashboard"
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition"
+              >
+                Dashboard
+              </Link>
             </SheetClose>
           </SheetFooter>
         )}
