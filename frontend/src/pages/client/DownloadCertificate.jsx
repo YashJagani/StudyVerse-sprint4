@@ -30,7 +30,7 @@ const DownloadCertificate = ({ name, courseName }) => {
       toast.error("Error downloading certificate");
     }
   };
-
+  // generate certificate button
   return (
     <Button onClick={downloadCertificate} className="bg-green-600 hover:bg-green-700 text-white mt-4">
       🎓 Generate Certificate
