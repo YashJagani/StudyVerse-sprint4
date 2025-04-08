@@ -42,7 +42,7 @@ const CourseTable = () => {
 
   return (
     <div className="mt-24 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 transition-all">
-      {/* Header Section */}
+      
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
           Existing Courses
@@ -56,7 +56,7 @@ const CourseTable = () => {
         </Button>
       </div>
 
-      {/* Course Table */}
+      
       <div className="overflow-x-auto">
         <Table className="min-w-full border border-gray-200 dark:border-gray-700 rounded-lg">
           <TableCaption className="text-gray-600 dark:text-gray-400 font-semibold">
