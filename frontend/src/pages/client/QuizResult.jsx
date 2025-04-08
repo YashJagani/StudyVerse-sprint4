@@ -15,7 +15,7 @@ const QuizResult = () => {
   const [result, setResult] = useState(location.state || null);
 
   const { data: quizData } = useGetQuizByCourseQuery(courseId);
-  const { data: userData } = useLoadUserQuery(); // Get user info
+  const { data: userData } = useLoadUserQuery();
   const { data: courseData } = useGetCourseByIdQuery(courseId);
   const [downloadCertificate] = useDownloadCertificateMutation();
 
