@@ -9,7 +9,7 @@ const CreateQuiz = () => {
   const { data: coursesData, isLoading: coursesLoading } = useGetPublishedCourseQuery();
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [questions, setQuestions] = useState([]);
-  const [timeLimit, setTimeLimit] = useState(10); 
+  const [timeLimit, setTimeLimit] = useState(10);
   const navigate = useNavigate();
   const [createQuiz, { isLoading }] = useCreateQuizMutation();
 
@@ -34,7 +34,7 @@ const CreateQuiz = () => {
     try {
       await createQuiz({
         courseId: selectedCourseId,
-        timeLimit: timeLimit * 60, 
+        timeLimit: timeLimit * 60,
         questions,
       }).unwrap();
 
@@ -46,16 +46,16 @@ const CreateQuiz = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Create Quiz</h1>
+    <div className="p-6 mt-24 max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-md rounded-md text-gray-800 dark:text-white">
+      <h1 className="text-3xl font-bold mb-6">Create Quiz</h1>
 
       {/* Select Course */}
-      <label className="font-semibold">Select Course:</label>
+      <label className="font-semibold block mb-1">Select Course:</label>
       {coursesLoading ? (
         <p>Loading courses...</p>
       ) : (
         <select
-          className="border rounded p-2 w-full mb-4"
+          className="border dark:border-gray-700 dark:bg-gray-800 p-2 w-full rounded mb-4"
           value={selectedCourseId}
           onChange={(e) => setSelectedCourseId(e.target.value)}
         >
@@ -69,20 +69,20 @@ const CreateQuiz = () => {
       )}
 
       {/* Timer */}
-      <div className="mb-4">
+      <div className="mb-6">
         <label className="font-semibold block mb-1">Time Limit (in minutes):</label>
         <input
           type="number"
           min={1}
           value={timeLimit}
           onChange={(e) => setTimeLimit(Number(e.target.value))}
-          className="border rounded p-2 w-full"
+          className="border dark:border-gray-700 dark:bg-gray-800 p-2 w-full rounded"
         />
       </div>
 
       {/* Questions */}
       {questions.map((q, index) => (
-        <div key={index} className="mb-4 border rounded-lg p-4">
+        <div key={index} className="mb-6 border dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-800">
           <input
             type="text"
             placeholder="Enter Question"
@@ -92,7 +92,7 @@ const CreateQuiz = () => {
               updated[index].questionText = e.target.value;
               setQuestions(updated);
             }}
-            className="border rounded p-2 w-full"
+            className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-3"
           />
 
           <select
@@ -104,14 +104,14 @@ const CreateQuiz = () => {
               updated[index].correctAnswer = [];
               setQuestions(updated);
             }}
-            className="border rounded p-2 w-full mt-2"
+            className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-4"
           >
             <option value="multiple_choice">Multiple Choice</option>
             <option value="fill_in_the_blank">Fill in the Blank</option>
             <option value="true_false">True / False</option>
           </select>
 
-          {/* Options and Correct Answer */}
+          {/* Multiple Choice */}
           {q.questionType === "multiple_choice" && (
             <>
               {q.options.map((opt, optIndex) => (
@@ -125,12 +125,12 @@ const CreateQuiz = () => {
                     updated[index].options[optIndex] = e.target.value;
                     setQuestions(updated);
                   }}
-                  className="border p-2 w-full mt-2"
+                  className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-2"
                 />
               ))}
-              <label className="block mt-2 font-semibold">Correct Answer:</label>
+              <label className="font-semibold block mt-2">Correct Answer:</label>
               <select
-                className="border p-2 w-full"
+                className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded"
                 onChange={(e) => {
                   const updated = [...questions];
                   updated[index].correctAnswer = [e.target.value];
@@ -147,6 +147,7 @@ const CreateQuiz = () => {
             </>
           )}
 
+          {/* Fill in the Blank */}
           {q.questionType === "fill_in_the_blank" && (
             <>
               {[...Array(3)].map((_, optIndex) => (
@@ -160,12 +161,12 @@ const CreateQuiz = () => {
                     updated[index].options[optIndex] = e.target.value;
                     setQuestions(updated);
                   }}
-                  className="border p-2 w-full mt-2"
+                  className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded mb-2"
                 />
               ))}
-              <label className="block mt-2 font-semibold">Correct Answer:</label>
+              <label className="font-semibold block mt-2">Correct Answer:</label>
               <select
-                className="border p-2 w-full"
+                className="border dark:border-gray-600 dark:bg-gray-900 p-2 w-full rounded"
                 onChange={(e) => {
                   const updated = [...questions];
                   updated[index].correctAnswer = [e.target.value];
@@ -182,6 +183,7 @@ const CreateQuiz = () => {
             </>
           )}
 
+          {/* True / False */}
           {q.questionType === "true_false" && (
             <>
               {["True", "False"].map((option, optIndex) => (
@@ -196,6 +198,7 @@ const CreateQuiz = () => {
                       updated[index].correctAnswer = [option];
                       setQuestions(updated);
                     }}
+                    className="mr-2"
                   />
                   {option}
                 </label>
@@ -206,17 +209,18 @@ const CreateQuiz = () => {
       ))}
 
       {/* Buttons */}
-      <button onClick={addQuestion} className="bg-black rounded-lg text-white px-4 py-2 mt-4">
-        Add Question
-      </button>
-
-      <button
-        onClick={handleSubmit}
-        className="bg-blue-600 rounded-lg text-white px-4 py-2 mt-4 ml-2"
-        disabled={isLoading}
-      >
-        {isLoading ? "Saving..." : "Save Quiz"}
-      </button>
+      <div className="flex gap-4 mt-6">
+        <Button onClick={addQuestion} className="bg-gray-800 hover:bg-gray-900 text-white">
+          Add Question
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+          disabled={isLoading}
+        >
+          {isLoading ? "Saving..." : "Save Quiz"}
+        </Button>
+      </div>
     </div>
   );
 };
