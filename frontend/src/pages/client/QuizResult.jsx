@@ -5,8 +5,16 @@ import { useGetQuizByCourseQuery } from "@/features/api/quizApi";
 import { useGetCourseByIdQuery } from "@/features/api/courseApi";
 import { useDownloadCertificateMutation } from "@/features/api/certificateApi";
 import { motion } from "framer-motion";
-import { CheckCircle, ArrowRight, Download } from "lucide-react";
+import {
+  CheckCircle,
+  ArrowRight,
+  Download,
+  PartyPopper,
+  BadgeCheck,
+  XCircle,
+} from "lucide-react";
 import { useLoadUserQuery } from "@/features/api/authApi";
+import { launchFireworks } from "@/lib/fireworks";
 
 const QuizResult = () => {
   const { courseId } = useParams();
@@ -22,11 +30,24 @@ const QuizResult = () => {
   const userName = userData?.user?.name || "Learner";
   const courseName = courseData?.course?.courseTitle || "Course";
 
+  // Calculate pass status
+  const totalQuestions = quizData?.quiz?.questions?.length || 0;
+  const isPassed =
+    result &&
+    totalQuestions > 0 &&
+    result.score >= Math.ceil(0.6 * totalQuestions); // 60% passing rule
+
   useEffect(() => {
     if (!location.state) {
       setResult(null);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    if (result && isPassed) {
+      launchFireworks();
+    }
+  }, [result, isPassed]);
 
   const handleCertificateDownload = () => {
     const encodedName = encodeURIComponent(userName);
@@ -37,14 +58,14 @@ const QuizResult = () => {
 
   return (
     <motion.div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-[#0f172a] dark:to-[#1e293b] px-6"
+      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 dark:from-[#0f172a] dark:to-[#1e293b] px-4"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
       <motion.div
-        className="bg-white dark:bg-[#1e293b] shadow-2xl rounded-3xl p-10 max-w-md w-full text-center"
+        className="bg-white dark:bg-[#0f172a] shadow-[0_10px_40px_rgba(0,0,0,0.2)] rounded-3xl p-10 max-w-md w-full text-center border border-blue-200 dark:border-slate-700"
         initial={{ scale: 0.9 }}
         animate={{ scale: 1 }}
         transition={{ delay: 0.2 }}
@@ -55,13 +76,32 @@ const QuizResult = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <CheckCircle
-            size={48}
-            className="text-green-600 dark:text-green-400 mb-4"
-          />
-          <h1 className="text-3xl font-extrabold text-green-600 dark:text-green-400">
-            🎉 Quiz Completed!
-          </h1>
+          {isPassed ? (
+            <CheckCircle
+              size={56}
+              className="text-green-600 dark:text-green-400 mb-4"
+            />
+          ) : (
+            <XCircle
+              size={56}
+              className="text-red-600 dark:text-red-400 mb-4"
+            />
+          )}
+
+          <div
+            className={`flex items-center justify-center gap-2 ${
+              isPassed
+                ? "text-green-600 dark:text-green-400"
+                : "text-red-600 dark:text-red-400"
+            }`}
+          >
+            <PartyPopper size={32} />
+            <h1 className="text-3xl font-extrabold">Quiz Completed!</h1>
+          </div>
+
+          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            Well done, {userName}! Here's how you did:
+          </p>
         </motion.div>
 
         {result ? (
@@ -69,22 +109,41 @@ const QuizResult = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
+            className="mb-6"
           >
-            <div className="mb-4 text-gray-700 dark:text-gray-300 text-lg">
-              <span className="font-semibold text-black dark:text-white">
-                Your Score:{" "}
-              </span>
-              <span className="text-3xl font-bold text-blue-700 dark:text-blue-400">
+            <div className="mb-2 text-lg font-semibold text-gray-800 dark:text-gray-200">
+              <span className="text-gray-600 dark:text-gray-300">
+                Your Score:
+              </span>{" "}
+              <span className="text-4xl font-bold text-blue-700 dark:text-blue-400">
                 {result.score}
               </span>
             </div>
-            <div className="mb-8 text-gray-700 dark:text-gray-300 text-lg">
-              <span className="font-semibold text-black dark:text-white">
-                Correct Answers:{" "}
-              </span>
-              <span className="text-2xl font-semibold text-blue-500 dark:text-blue-300">
+            <div className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+              <span className="text-gray-600 dark:text-gray-300">
+                Correct Answers:
+              </span>{" "}
+              <span className="text-2xl text-blue-500 dark:text-blue-300">
                 {result.correctAnswers}
               </span>
+            </div>
+
+            <div className="mt-4 text-md font-medium flex items-center justify-center gap-2">
+              {isPassed ? (
+                <>
+                  <BadgeCheck size={20} className="text-green-500" />
+                  <span className="text-green-600 dark:text-green-400">
+                    You passed the quiz!
+                  </span>
+                </>
+              ) : (
+                <>
+                  <XCircle size={20} className="text-red-500" />
+                  <span className="text-red-600 dark:text-red-400">
+                    You did not pass. Try again!
+                  </span>
+                </>
+              )}
             </div>
           </motion.div>
         ) : (
@@ -111,7 +170,7 @@ const QuizResult = () => {
             <ArrowRight size={18} /> Back to Course Progress
           </Button>
 
-          {userData && quizData && (
+          {isPassed && (
             <Button
               onClick={handleCertificateDownload}
               className="bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2"

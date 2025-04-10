@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
-import { Clock } from "lucide-react"; // 🕒 Icon
+import { Clock } from "lucide-react"; //
 
 const QuizPage = () => {
   const { courseId } = useParams();
