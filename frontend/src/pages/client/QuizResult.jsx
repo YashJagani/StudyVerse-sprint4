@@ -30,12 +30,11 @@ const QuizResult = () => {
   const userName = userData?.user?.name || "Learner";
   const courseName = courseData?.course?.courseTitle || "Course";
 
-  // Calculate pass status
   const totalQuestions = quizData?.quiz?.questions?.length || 0;
   const isPassed =
     result &&
     totalQuestions > 0 &&
-    result.score >= Math.ceil(0.6 * totalQuestions); // 60% passing rule
+    result.score >= Math.ceil(0.6 * totalQuestions);
 
   useEffect(() => {
     if (!location.state) {
